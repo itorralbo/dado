@@ -62,6 +62,95 @@
     result.innerHTML = 'Has sacado un <strong>' + value + '</strong>';
   }
 
+  // --- Histograma ---------------------------------------------------------
+
+  var STORAGE_KEY = 'dado:counts';
+  var plot = document.getElementById('plot');
+  var expected = document.getElementById('expected');
+  var totalText = document.getElementById('total');
+  var bars = plot.querySelectorAll('.chart__bar');
+  var countTexts = plot.querySelectorAll('.chart__count');
+
+  // Las tiradas se acumulan entre visitas; el botón "Reiniciar" las borra.
+  function loadCounts() {
+    try {
+      var saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
+      if (Object.prototype.toString.call(saved) === '[object Array]' && saved.length === 6) {
+        var clean = [];
+        for (var i = 0; i < 6; i++) {
+          var n = saved[i];
+          if (typeof n !== 'number' || !isFinite(n) || n < 0) {
+            return [0, 0, 0, 0, 0, 0];
+          }
+          clean.push(Math.floor(n));
+        }
+        return clean;
+      }
+    } catch (e) {
+      // JSON corrupto o localStorage no disponible (modo privado, cookies bloqueadas).
+    }
+    return [0, 0, 0, 0, 0, 0];
+  }
+
+  function saveCounts() {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(counts));
+    } catch (e) {
+      // Sin persistencia: el histograma sigue funcionando en esta sesión.
+    }
+  }
+
+  var counts = loadCounts();
+
+  function renderChart() {
+    var total = 0;
+    var max = 0;
+    var i;
+    for (i = 0; i < 6; i++) {
+      total += counts[i];
+      if (counts[i] > max) {
+        max = counts[i];
+      }
+    }
+
+    // Las barras se escalan al valor más alto, así siempre caben; la línea del
+    // valor esperado se coloca en la misma escala.
+    var summary = [];
+    for (i = 0; i < 6; i++) {
+      bars[i].style.height = (max ? (counts[i] / max) * 100 : 0) + '%';
+      countTexts[i].textContent = counts[i];
+      summary.push((i + 1) + ': ' + counts[i]);
+    }
+
+    if (total) {
+      expected.hidden = false;
+      expected.style.bottom = (total / 6 / max) * 100 + '%';
+    } else {
+      expected.hidden = true;
+    }
+
+    totalText.textContent = total === 1 ? '1 tirada' : total + ' tiradas';
+    plot.setAttribute('aria-label', total
+      ? 'Distribución de ' + total + ' tiradas — ' + summary.join(', ')
+      : 'Aún no hay tiradas.');
+  }
+
+  function record(value) {
+    counts[value - 1]++;
+    saveCounts();
+    renderChart();
+  }
+
+  document.getElementById('reset').addEventListener('click', function () {
+    counts = [0, 0, 0, 0, 0, 0];
+    saveCounts();
+    renderChart();
+  });
+
+  renderChart();
+
+  // ------------------------------------------------------------------------
+
   function finish(value) {
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
@@ -71,6 +160,7 @@
     rolling = false;
     button.disabled = false;
     announce(value);
+    record(value);
   }
 
   var pendingValue = null;
@@ -92,6 +182,7 @@
     if (reducedMotion.matches) {
       cube.style.transform = transformFor(target.x, target.y);
       announce(value);
+      record(value);
       return;
     }
 

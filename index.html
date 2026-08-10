@@ -30,6 +30,32 @@
     <button type="button" id="roll" class="roll">Tirar</button>
 
     <p id="result" class="result" role="status" aria-live="polite">Pulsa «Tirar» para lanzar el dado.</p>
+
+    <section class="stats">
+      <h2 class="stats__title">Distribución</h2>
+
+      <div class="chart">
+        <div class="chart__plot" id="plot" role="img" aria-label="Aún no hay tiradas.">
+          <!-- Marca en el valor esperado (total / 6): las barras deberían
+               acercarse a ella según se acumulan tiradas. -->
+          <div class="chart__expected" id="expected" hidden></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+          <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
+        </div>
+        <div class="chart__labels" aria-hidden="true">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+        </div>
+      </div>
+
+      <p class="stats__foot">
+        <span id="total">0 tiradas</span>
+        <button type="button" id="reset" class="reset">Reiniciar</button>
+      </p>
+    </section>
   </main>
 
   <script src="app.js"></script>

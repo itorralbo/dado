@@ -4,6 +4,10 @@ App web para tirar un dado de 6 caras. Un cubo 3D en CSS puro que rueda y se det
 mostrando la cara que ha salido. Se tira pulsando el botón, haciendo clic sobre el
 propio dado o con la barra espaciadora.
 
+Debajo hay un histograma con las veces que ha salido cada cara, con una línea de
+referencia en el valor esperado (total / 6), para ver cómo converge la distribución
+según se acumulan tiradas.
+
 Sin dependencias, sin build, sin instalación: son tres archivos estáticos
 (`index.html`, `styles.css`, `app.js`).
 
@@ -37,6 +41,8 @@ La web quedará publicada en https://itorralbo.github.io/dado/
 
 - El valor de cada tirada se obtiene con `crypto.getRandomValues` y descarte de valores
   sesgados, así que las seis caras son equiprobables.
+- El histograma se guarda en `localStorage`, así que las tiradas se acumulan entre
+  visitas. El botón **Reiniciar** las borra.
 - El resultado se anuncia mediante una región `aria-live` para lectores de pantalla.
 - Se respeta `prefers-reduced-motion`: si está activo, el resultado aparece sin animación.
 - Tema claro y oscuro automáticos según las preferencias del sistema.
