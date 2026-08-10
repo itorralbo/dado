@@ -1,7 +1,8 @@
 # 🎲 Dado virtual
 
 App web para tirar un dado de 6 caras. Un cubo 3D en CSS puro que rueda y se detiene
-mostrando la cara que ha salido.
+mostrando la cara que ha salido. Se tira pulsando el botón, haciendo clic sobre el
+propio dado o con la barra espaciadora.
 
 Sin dependencias, sin build, sin instalación: son tres archivos estáticos
 (`index.html`, `styles.css`, `app.js`).

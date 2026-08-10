@@ -112,6 +112,7 @@
   }
 
   button.addEventListener('click', roll);
+  document.getElementById('dice').addEventListener('click', roll);
 
   // Barra espaciadora como atajo cuando el foco no está ya en el botón
   // (ahí el propio <button> se encarga).

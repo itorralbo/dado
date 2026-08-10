@@ -60,12 +60,20 @@ h1 {
 
 /* --- Cubo 3D --- */
 
+/* Zona de clic del dado. Es una caja plana, sin transformar, así que se queda
+   dentro de sus límites y nunca alcanza al botón. */
+.dice {
+  padding: 0.75rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .scene {
   width: var(--size);
   height: var(--size);
   perspective: 800px;
   /* Las caras giradas se proyectan fuera de la escena; sin esto taparían el
-     botón e interceptarían sus clics. El dado no es interactivo. */
+     botón e interceptarían sus clics. Los clics sobre el dado los recoge .dice. */
   pointer-events: none;
   user-select: none;
 }
