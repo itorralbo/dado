@@ -5,8 +5,8 @@
   var button = document.getElementById('roll');
   var result = document.getElementById('result');
 
-  // Rotación (X, Y) que deja cada cara mirando al frente, según cómo está
-  // montado el cubo en styles.css.
+  // Rotation (X, Y) that leaves each face pointing at the viewer, given how the
+  // cube is assembled in styles.css.
   var ORIENTATIONS = {
     1: { x: 0, y: 0 },
     2: { x: 0, y: -90 },
@@ -16,15 +16,14 @@
     6: { x: 0, y: 180 }
   };
 
-  // Inclinación de reposo: el dado se queda ligeramente girado para que se siga
-  // viendo como un cubo y no como un cuadrado plano. Al ser menor de 45° la cara
-  // sorteada sigue siendo claramente la que mira al espectador.
+  // Resting tilt: the die stays slightly turned so it still reads as a cube and
+  // not as a flat square. Because it is under 45°, the rolled face is still
+  // clearly the one facing the viewer.
   //
-  // Se aplica por delante de la rotación objetivo, es decir en el marco del
-  // espectador y no en el del cubo: así todas las caras quedan igual de
-  // inclinadas. Si se sumara a los ángulos objetivo, en las caras superior e
-  // inferior el giro en Y se convertiría en un giro dentro del propio plano de
-  // la cara y el dado quedaría torcido.
+  // It is applied ahead of the target rotation, i.e. in the viewer's frame and
+  // not the cube's: that way every face is tilted the same. If it were added to
+  // the target angles, on the top and bottom faces the Y rotation would turn
+  // into a spin within the face's own plane and the die would look crooked.
   var TILT = 'rotateX(-15deg) rotateY(-20deg) ';
 
   function transformFor(x, y) {
@@ -33,16 +32,16 @@
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // Vueltas completas acumuladas: el cubo siempre gira hacia delante y nunca
-  // "retrocede" hasta la orientación de la nueva cara.
+  // Accumulated full turns: the cube always spins forward and never "rewinds"
+  // to the orientation of the new face.
   var spinsX = 0;
   var spinsY = 0;
   var rolling = false;
   var timeoutId = null;
 
   /**
-   * Devuelve un entero de 1 a 6 sin sesgo. Usa la fuente criptográfica del
-   * navegador y descarta los valores que no caben en un múltiplo exacto de 6.
+   * Returns an unbiased integer from 1 to 6. Uses the browser's cryptographic
+   * source and discards the values that don't fit in an exact multiple of 6.
    */
   function rollValue() {
     if (window.crypto && window.crypto.getRandomValues) {
@@ -59,11 +58,13 @@
   }
 
   function announce(value) {
-    result.innerHTML = 'Has sacado un <strong>' + value + '</strong>';
+    result.innerHTML = 'You rolled a <strong>' + value + '</strong>';
   }
 
-  // --- Histograma ---------------------------------------------------------
+  // --- Histogram ----------------------------------------------------------
 
+  // The key keeps its original name so histograms saved before the app was
+  // translated are still picked up.
   var STORAGE_KEY = 'dado:counts';
   var plot = document.getElementById('plot');
   var expected = document.getElementById('expected');
@@ -71,7 +72,7 @@
   var bars = plot.querySelectorAll('.chart__bar');
   var countTexts = plot.querySelectorAll('.chart__count');
 
-  // Las tiradas se acumulan entre visitas; el botón "Reiniciar" las borra.
+  // Rolls add up across visits; the "Reset" button clears them.
   function loadCounts() {
     try {
       var saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
@@ -87,7 +88,7 @@
         return clean;
       }
     } catch (e) {
-      // JSON corrupto o localStorage no disponible (modo privado, cookies bloqueadas).
+      // Corrupt JSON or localStorage unavailable (private mode, cookies blocked).
     }
     return [0, 0, 0, 0, 0, 0];
   }
@@ -96,7 +97,7 @@
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(counts));
     } catch (e) {
-      // Sin persistencia: el histograma sigue funcionando en esta sesión.
+      // No persistence: the histogram still works for this session.
     }
   }
 
@@ -113,8 +114,8 @@
       }
     }
 
-    // Las barras se escalan al valor más alto, así siempre caben; la línea del
-    // valor esperado se coloca en la misma escala.
+    // Bars are scaled to the highest value, so they always fit; the expected
+    // value line is placed on the same scale.
     var summary = [];
     for (i = 0; i < 6; i++) {
       bars[i].style.height = (max ? (counts[i] / max) * 100 : 0) + '%';
@@ -129,10 +130,11 @@
       expected.hidden = true;
     }
 
-    totalText.textContent = total === 1 ? '1 tirada' : total + ' tiradas';
+    var label = total === 1 ? '1 roll' : total + ' rolls';
+    totalText.textContent = label;
     plot.setAttribute('aria-label', total
-      ? 'Distribución de ' + total + ' tiradas — ' + summary.join(', ')
-      : 'Aún no hay tiradas.');
+      ? 'Distribution of ' + label + ' — ' + summary.join(', ')
+      : 'No rolls yet.');
   }
 
   function record(value) {
@@ -189,14 +191,14 @@
     rolling = true;
     pendingValue = value;
     button.disabled = true;
-    result.textContent = 'Tirando…';
+    result.textContent = 'Rolling…';
 
     spinsX += 360 * (1 + Math.floor(Math.random() * 2));
     spinsY += 360 * (2 + Math.floor(Math.random() * 2));
     cube.style.transform = transformFor(target.x + spinsX, target.y + spinsY);
 
     cube.addEventListener('transitionend', onTransitionEnd);
-    // Red de seguridad por si el navegador no dispara transitionend.
+    // Safety net in case the browser doesn't fire transitionend.
     timeoutId = setTimeout(function () {
       finish(value);
     }, 2000);
@@ -205,8 +207,8 @@
   button.addEventListener('click', roll);
   document.getElementById('dice').addEventListener('click', roll);
 
-  // Barra espaciadora como atajo cuando el foco no está ya en el botón
-  // (ahí el propio <button> se encarga).
+  // Spacebar as a shortcut when focus isn't already on the button (there the
+  // <button> itself handles it).
   document.addEventListener('keydown', function (event) {
     if (event.code === 'Space' && document.activeElement !== button) {
       event.preventDefault();

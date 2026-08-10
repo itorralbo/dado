@@ -58,10 +58,10 @@ h1 {
   letter-spacing: -0.02em;
 }
 
-/* --- Cubo 3D --- */
+/* --- 3D cube --- */
 
-/* Zona de clic del dado. Es una caja plana, sin transformar, así que se queda
-   dentro de sus límites y nunca alcanza al botón. */
+/* The die's click area. It is a flat, untransformed box, so it stays within
+   its bounds and never reaches the button. */
 .dice {
   padding: 0.75rem;
   cursor: pointer;
@@ -72,8 +72,8 @@ h1 {
   width: var(--size);
   height: var(--size);
   perspective: 800px;
-  /* Las caras giradas se proyectan fuera de la escena; sin esto taparían el
-     botón e interceptarían sus clics. Los clics sobre el dado los recoge .dice. */
+  /* Rotated faces project outside the scene; without this they would cover the
+     button and intercept its clicks. Clicks on the die are picked up by .dice. */
   pointer-events: none;
   user-select: none;
 }
@@ -83,8 +83,8 @@ h1 {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  /* Misma lista de funciones que genera app.js (TILT + rotación objetivo), para
-     que la primera tirada interpole de forma suave. */
+  /* Same list of functions app.js generates (TILT + target rotation), so the
+     first roll interpolates smoothly. */
   transform: rotateX(-15deg) rotateY(-20deg) rotateX(0deg) rotateY(0deg);
   transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
@@ -103,7 +103,7 @@ h1 {
   backface-visibility: hidden;
 }
 
-/* Caras opuestas suman 7: 1-6, 2-5, 3-4. */
+/* Opposite faces add up to 7: 1-6, 2-5, 3-4. */
 .face--1 { transform: translateZ(calc(var(--size) / 2)); }
 .face--6 { transform: rotateY(180deg) translateZ(calc(var(--size) / 2)); }
 .face--2 { transform: rotateY(90deg) translateZ(calc(var(--size) / 2)); }
@@ -128,7 +128,7 @@ h1 {
 .pip--bl { grid-area: 3 / 1; }
 .pip--br { grid-area: 3 / 3; }
 
-/* --- Controles --- */
+/* --- Controls --- */
 
 .roll {
   font: inherit;
@@ -174,7 +174,7 @@ h1 {
   font-size: 1.4em;
 }
 
-/* --- Histograma --- */
+/* --- Histogram --- */
 
 .stats {
   width: min(22rem, 100%);
@@ -223,8 +223,8 @@ h1 {
   color: var(--muted);
 }
 
-/* Línea del valor esperado (total / 6). Va por encima de las barras: si queda
-   detrás no se ve justo cuando más importa, con las barras ya convergidas. */
+/* Expected value line (total / 6). It sits above the bars: behind them it
+   would be invisible exactly when it matters most, once the bars converge. */
 .chart__expected {
   position: absolute;
   left: 0;

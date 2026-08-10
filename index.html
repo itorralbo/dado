@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dado virtual</title>
-  <meta name="description" content="Tira un dado de 6 caras virtual desde el navegador.">
+  <title>Virtual dice</title>
+  <meta name="description" content="Roll a virtual six-sided die from your browser.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app">
-    <h1>Dado virtual</h1>
+    <h1>Virtual dice</h1>
 
-    <!-- El dado es decorativo: el resultado se anuncia en #result y la acción
-         accesible por teclado es el botón. Aquí solo se añade la zona de clic. -->
+    <!-- The die is decorative: the result is announced in #result and the
+         keyboard-accessible action is the button. This only adds the click area. -->
     <div class="dice" id="dice" aria-hidden="true">
       <div class="scene">
         <div class="cube" id="cube">
@@ -27,17 +27,17 @@
       </div>
     </div>
 
-    <button type="button" id="roll" class="roll">Tirar</button>
+    <button type="button" id="roll" class="roll">Roll</button>
 
-    <p id="result" class="result" role="status" aria-live="polite">Pulsa «Tirar» para lanzar el dado.</p>
+    <p id="result" class="result" role="status" aria-live="polite">Press “Roll” to throw the die.</p>
 
     <section class="stats">
-      <h2 class="stats__title">Distribución</h2>
+      <h2 class="stats__title">Distribution</h2>
 
       <div class="chart">
-        <div class="chart__plot" id="plot" role="img" aria-label="Aún no hay tiradas.">
-          <!-- Marca en el valor esperado (total / 6): las barras deberían
-               acercarse a ella según se acumulan tiradas. -->
+        <div class="chart__plot" id="plot" role="img" aria-label="No rolls yet.">
+          <!-- Marker at the expected value (total / 6): the bars should get
+               closer to it as rolls pile up. -->
           <div class="chart__expected" id="expected" hidden></div>
           <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
           <div class="chart__col"><div class="chart__bar"><span class="chart__count">0</span></div></div>
@@ -52,8 +52,8 @@
       </div>
 
       <p class="stats__foot">
-        <span id="total">0 tiradas</span>
-        <button type="button" id="reset" class="reset">Reiniciar</button>
+        <span id="total">0 rolls</span>
+        <button type="button" id="reset" class="reset">Reset</button>
       </p>
     </section>
   </main>

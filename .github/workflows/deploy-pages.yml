@@ -24,9 +24,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Requiere haber activado antes Pages en Settings > Pages > Source:
-      # GitHub Actions. No se puede automatizar con `enablement: true`: el
-      # GITHUB_TOKEN no tiene permiso para dar de alta el sitio
+      # Requires Pages to have been enabled beforehand in Settings > Pages >
+      # Source: GitHub Actions. It can't be automated with `enablement: true`:
+      # the GITHUB_TOKEN isn't allowed to create the site
       # ("Create Pages site failed: Resource not accessible by integration").
       - name: Configure Pages
         uses: actions/configure-pages@v5

@@ -1,48 +1,50 @@
-# 🎲 Dado virtual
+# 🎲 Virtual dice
 
-App web para tirar un dado de 6 caras. Un cubo 3D en CSS puro que rueda y se detiene
-mostrando la cara que ha salido. Se tira pulsando el botón, haciendo clic sobre el
-propio dado o con la barra espaciadora.
+Web app for rolling a six-sided die. A pure-CSS 3D cube that tumbles and stops
+showing the face that came up. Roll it by pressing the button, clicking the die
+itself, or hitting the spacebar.
 
-Debajo hay un histograma con las veces que ha salido cada cara, con una línea de
-referencia en el valor esperado (total / 6), para ver cómo converge la distribución
-según se acumulan tiradas.
+Below it there is a histogram of how many times each face has come up, with a
+reference line at the expected value (total / 6), so you can watch the
+distribution converge as rolls pile up.
 
-Sin dependencias, sin build, sin instalación: son tres archivos estáticos
+No dependencies, no build step, no install: it's three static files
 (`index.html`, `styles.css`, `app.js`).
 
-## Cómo usarlo en local
+**Live at https://itorralbo.github.io/dado/** — public, no sign-in needed.
 
-Basta con abrir `index.html` en el navegador. Si prefieres servirlo:
+## Running it locally
+
+Just open `index.html` in a browser. If you'd rather serve it:
 
 ```bash
 python3 -m http.server 8000
-# y abrir http://localhost:8000
+# then open http://localhost:8000
 ```
 
-## Publicar en GitHub Pages
+## Publishing to GitHub Pages
 
-El repositorio incluye el workflow `.github/workflows/deploy-pages.yml`, que despliega
-el sitio en cada push a `main`.
+The repository includes the `.github/workflows/deploy-pages.yml` workflow, which
+deploys the site on every push to `main`.
 
-Para activarlo la primera vez hay dos pasos que solo puede hacer el dueño del repositorio:
+Pages is already enabled for this repository, so nothing else is needed. To set it
+up on a fork, there are two steps only the repository owner can do:
 
-1. **Settings → General → Default branch**: dejar `main` como rama por defecto. GitHub solo
-   permite desplegar al entorno `github-pages` desde la rama por defecto.
-2. **Settings → Pages → Source**: elegir **GitHub Actions**. No se puede automatizar desde el
-   propio workflow, porque el `GITHUB_TOKEN` no tiene permiso para dar de alta el sitio.
+1. **Settings → General → Default branch**: keep `main` as the default branch. GitHub
+   only allows deploying to the `github-pages` environment from the default branch.
+2. **Settings → Pages → Source**: pick **GitHub Actions**. This can't be automated from
+   the workflow itself, because the `GITHUB_TOKEN` isn't allowed to create the site.
 
-Después, cualquier push a `main` (o un **Run workflow** manual desde la pestaña Actions)
-publica el sitio.
+After that, any push to `main` (or a manual **Run workflow** from the Actions tab)
+publishes the site.
 
-La web quedará publicada en https://itorralbo.github.io/dado/
+## Details
 
-## Detalles
-
-- El valor de cada tirada se obtiene con `crypto.getRandomValues` y descarte de valores
-  sesgados, así que las seis caras son equiprobables.
-- El histograma se guarda en `localStorage`, así que las tiradas se acumulan entre
-  visitas. El botón **Reiniciar** las borra.
-- El resultado se anuncia mediante una región `aria-live` para lectores de pantalla.
-- Se respeta `prefers-reduced-motion`: si está activo, el resultado aparece sin animación.
-- Tema claro y oscuro automáticos según las preferencias del sistema.
+- Each roll's value comes from `crypto.getRandomValues` with rejection of biased
+  values, so all six faces are equally likely.
+- The histogram is stored in `localStorage`, so rolls accumulate across visits. The
+  **Reset** button clears them.
+- The result is announced through an `aria-live` region for screen readers.
+- `prefers-reduced-motion` is respected: when it's on, the result appears without
+  animation.
+- Automatic light and dark themes following system preferences.
