@@ -20,12 +20,15 @@ python3 -m http.server 8000
 El repositorio incluye el workflow `.github/workflows/deploy-pages.yml`, que despliega
 el sitio en cada push a `main`.
 
-Para activarlo la primera vez:
+Para activarlo la primera vez hay dos pasos que solo puede hacer el dueño del repositorio:
 
-1. Ve a **Settings → Pages**.
-2. En **Source**, elige **GitHub Actions**.
-3. Asegúrate de que el código está en la rama `main` (GitHub solo permite desplegar al
-   entorno `github-pages` desde la rama por defecto).
+1. **Settings → General → Default branch**: dejar `main` como rama por defecto. GitHub solo
+   permite desplegar al entorno `github-pages` desde la rama por defecto.
+2. **Settings → Pages → Source**: elegir **GitHub Actions**. No se puede automatizar desde el
+   propio workflow, porque el `GITHUB_TOKEN` no tiene permiso para dar de alta el sitio.
+
+Después, cualquier push a `main` (o un **Run workflow** manual desde la pestaña Actions)
+publica el sitio.
 
 La web quedará publicada en https://itorralbo.github.io/dado/
 
