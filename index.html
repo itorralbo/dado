@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dado virtual</title>
+  <meta name="description" content="Tira un dado de 6 caras virtual desde el navegador.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <h1>Dado virtual</h1>
+
+    <div class="scene">
+      <div class="cube" id="cube">
+        <div class="face face--1"><span class="pip pip--c"></span></div>
+        <div class="face face--2"><span class="pip pip--tl"></span><span class="pip pip--br"></span></div>
+        <div class="face face--3"><span class="pip pip--tl"></span><span class="pip pip--c"></span><span class="pip pip--br"></span></div>
+        <div class="face face--4"><span class="pip pip--tl"></span><span class="pip pip--tr"></span><span class="pip pip--bl"></span><span class="pip pip--br"></span></div>
+        <div class="face face--5"><span class="pip pip--tl"></span><span class="pip pip--tr"></span><span class="pip pip--c"></span><span class="pip pip--bl"></span><span class="pip pip--br"></span></div>
+        <div class="face face--6"><span class="pip pip--tl"></span><span class="pip pip--tr"></span><span class="pip pip--ml"></span><span class="pip pip--mr"></span><span class="pip pip--bl"></span><span class="pip pip--br"></span></div>
+      </div>
+    </div>
+
+    <button type="button" id="roll" class="roll">Tirar</button>
+
+    <p id="result" class="result" role="status" aria-live="polite">Pulsa «Tirar» para lanzar el dado.</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
